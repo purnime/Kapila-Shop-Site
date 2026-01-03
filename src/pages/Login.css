@@ -110,3 +110,37 @@
     gap: 0.5rem;
     font-size: 0.9rem;
 }
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .login-page {
+        padding: 1rem;
+    }
+
+    .login-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+
+    .input-wrapper input {
+        font-size: 0.95rem;
+        padding: 0.65rem 1rem 0.65rem 2.5rem;
+    }
+
+    .btn-block {
+        padding: 0.85rem;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,60 @@
+
+
+/* ========================================
+   FINAL MOBILE FIX - MAXIMUM SPECIFICITY
+   ======================================== */
+
+/* Admin Page - Mobile Phones */
+@media only screen and (max-width: 1024px) {
+    body .admin-page .admin-layout {
+        grid-template-columns: 1fr !important;
+    }
+    
+    body .admin-page .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    body .admin-page .admin-header {
+        flex-direction: column !important;
+    }
+    
+    body .admin-page .nav-buttons {
+        width: 100% !important;
+    }
+    
+    body .admin-page .nav-btn {
+        flex: 1 !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    body .admin-page .form-group input,
+    body .admin-page .form-group select {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 0.95rem !important;
+    }
+    
+    body .admin-page .table-container {
+        overflow-x: auto !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body .admin-page .admin-header h1 {
+        font-size: 1.35rem !important;
+    }
+    
+    body .admin-page .nav-btn {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    body .admin-page .form-group input,
+    body .admin-page .form-group select {
+        padding: 0.65rem 0.85rem !important;
+        font-size: 0.9rem !important;
+    }
+}

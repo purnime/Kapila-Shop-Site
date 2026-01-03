@@ -1,0 +1,57 @@
+
+
+/* ========================================
+   FINAL MOBILE FIX - MAXIMUM SPECIFICITY
+   ======================================== */
+
+/* Shop Page - Mobile Phones */
+@media only screen and (max-width: 900px) {
+    body .shop-page .shop-layout {
+        grid-template-columns: 1fr !important;
+    }
+    
+    body .shop-page .product-card {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        flex-direction: column !important;
+    }
+    
+    body .shop-page .product-image-wrapper {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 140px !important;
+        min-height: 140px !important;
+        max-height: 140px !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body .shop-page .product-image-wrapper {
+        height: 120px !important;
+        min-height: 120px !important;
+        max-height: 120px !important;
+    }
+    
+    body .shop-page .product-title {
+        font-size: 0.95rem !important;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    body .shop-page .product-image-wrapper {
+        height: 100px !important;
+        min-height: 100px !important;
+        max-height: 100px !important;
+    }
+    
+    body .shop-page .product-footer {
+        flex-direction: column !important;
+    }
+    
+    body .shop-page .btn-add-cart,
+    body .shop-page .quantity-controls {
+        width: 100% !important;
+    }
+}

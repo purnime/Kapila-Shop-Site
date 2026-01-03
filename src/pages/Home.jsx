@@ -14,7 +14,6 @@ const Home = () => {
 
     return (
         <div className="home-page">
-            {/* Hero Section */}
             <section className="hero-section">
                 <div className="container hero-content">
                     <div className="hero-text animate-fade-in">
@@ -36,8 +35,8 @@ const Home = () => {
                             </Link>
                         </div>
                     </div>
+
                     <div className="hero-visual">
-                        {/* Abstract Decorative Elements */}
                         <div className="blob blob-1"></div>
                         <div className="blob blob-2"></div>
                         <div className="hero-card glass-panel">
@@ -53,25 +52,25 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Featured Categories */}
             <section className="section categories-section">
                 <div className="container">
                     <h2 className="section-title">Shop by Category</h2>
                     <div className="grid-responsive category-grid">
                         {categories.map((cat, index) => (
-                            <Link to={cat.link} key={index} className="category-card" style={{ '--accent-color': cat.color }}>
+                            <Link key={index} to={cat.link} className="category-card">
                                 <div className="category-icon" style={{ backgroundColor: cat.color }}>
                                     {cat.icon}
                                 </div>
                                 <h3 className="category-title">{cat.title}</h3>
-                                <div className="category-link">Explore <ArrowRight size={16} /></div>
+                                <div className="category-link">
+                                    Explore <ArrowRight size={16} />
+                                </div>
                             </Link>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Value Props */}
             <section className="section features-section">
                 <div className="container">
                     <div className="features-grid">
