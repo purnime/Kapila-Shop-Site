@@ -19,7 +19,7 @@ const Shop = () => {
         const fetchData = async () => {
             try {
                 // Fetch Products
-                const prodRes = await fetch('http://localhost:3000/api/products');
+                const prodRes = await fetch(`${API_BASE_URL}/api/products`);
                 const prodData = await prodRes.json();
                 setProducts(prodData);
 
@@ -61,7 +61,7 @@ const Shop = () => {
         }));
 
         try {
-            await fetch('http://localhost:3000/api/cart', {
+            await fetch(`${API_BASE_URL}/api/cart`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user.id, productId: product.id, change: change })

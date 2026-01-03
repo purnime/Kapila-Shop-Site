@@ -38,7 +38,7 @@ const Cart = () => {
     const handleCheckout = async () => {
         if (!confirm('Confirm checkout?')) return;
         try {
-            const res = await fetch('http://localhost:3000/api/checkout', {
+            const res = await fetch(`${API_BASE_URL}/api/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: user.id })

@@ -26,14 +26,14 @@ const Admin = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/products');
+            const res = await fetch(`${API_BASE_URL}/api/products`);
             setProducts(await res.json());
         } catch (err) { console.error(err); }
     };
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/orders');
+            const res = await fetch(`${API_BASE_URL}/api/orders`);
             setOrders(await res.json());
         } catch (err) { console.error(err); }
     };
@@ -50,7 +50,7 @@ const Admin = () => {
 
         const url = isEditing
             ? `${API_BASE_URL}/api/products/${formData.id}`
-            : 'http://localhost:3000/api/products';
+            : `${API_BASE_URL}/api/products`;
 
         const method = isEditing ? 'PUT' : 'POST';
 
