@@ -1,0 +1,13 @@
+node_modules
+dist
+server/database.sqlite
+.env
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+package-lock.json
+eslint.config.js
+test-db.js
+test-delete.js

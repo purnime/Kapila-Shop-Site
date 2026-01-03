@@ -1,0 +1,119 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { Trash2, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
+import './Cart.css';
+
+const Cart = () => {
+    const { user } = useAuth();
+    const [cartItems, setCartItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (user) {
+            fetchCart();
+        } else {
+            setIsLoading(false);
+        }
+    }, [user]);
+
+    const fetchCart = async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/cart/${user.id}`);
+            const data = await res.json();
+            setCartItems(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const removeItem = async (id) => {
+        await fetch(`${API_BASE_URL}/api/cart/${id}`, { method: 'DELETE' });
+        fetchCart();
+    };
+
+    const handleCheckout = async () => {
+        if (!confirm('Confirm checkout?')) return;
+        try {
+            const res = await fetch('http://localhost:3000/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert('Order placed successfully!');
+                fetchCart();
+            }
+        } catch (err) {
+            alert('Checkout failed');
+        }
+    };
+
+    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    if (!user) {
+        return (
+            <div className="container section text-center">
+                <h2>Please Sign In</h2>
+                <p className="text-muted" style={{ marginBottom: '2rem' }}>You need to be logged in to view your cart.</p>
+                <Link to="/login" className="btn btn-primary">Sign In</Link>
+            </div>
+        );
+    }
+
+    return (
+        <div className="container section cart-page">
+            <h1 className="section-title" style={{ textAlign: 'left' }}>Your Shopping Cart</h1>
+
+            {isLoading ? (
+                <p>Loading cart...</p>
+            ) : cartItems.length === 0 ? (
+                <div className="empty-cart">
+                    <p>Your cart is empty.</p>
+                    <Link to="/shop" className="btn btn-secondary">Start Shopping</Link>
+                </div>
+            ) : (
+                <div className="cart-layout">
+                    <div className="cart-items">
+                        {cartItems.map(item => (
+                            <div key={item.id} className="cart-item">
+                                <img src={item.image} alt={item.name} className="cart-item-img" />
+                                <div className="cart-item-info">
+                                    <h3>{item.name}</h3>
+                                    <p className="text-muted">LKR {item.price} x {item.quantity}</p>
+                                </div>
+                                <div className="cart-item-price">
+                                    LKR {item.price * item.quantity}
+                                </div>
+                                <button onClick={() => removeItem(item.id)} className="btn-icon delete">
+                                    <Trash2 size={18} />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="cart-summary">
+                        <h3>Order Summary</h3>
+                        <div className="summary-row">
+                            <span>Subtotal</span>
+                            <span>LKR {total}</span>
+                        </div>
+                        <div className="summary-row total">
+                            <span>Total</span>
+                            <span>LKR {total}</span>
+                        </div>
+                        <button onClick={handleCheckout} className="btn btn-primary btn-block">
+                            Checkout <ArrowRight size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Cart;
