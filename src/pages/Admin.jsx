@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit2, DollarSign, Package, ShoppingBag, CheckCircle, Archive, Mail, Upload, LayoutDashboard, LogOut } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 import './Admin.css';
+import './Admin-mobile-fix.css';
+import './Admin-responsive.css';
 
 const Admin = () => {
     const { user, logout } = useAuth();
@@ -111,8 +113,8 @@ const Admin = () => {
     if (!user) return null;
 
     return (
-        <div className="admin-page container section">
-            <header className="admin-header">
+        <div className="admin-responsive" style={{ minHeight: '100vh', color: 'var(--text-primary)', fontFamily: 'Inter, system-ui, sans-serif' }}>
+            <header style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', padding: '1.5rem', background: 'var(--glass-bg)', backdropFilter: 'blur(12px)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-lg)', gap: '1.5rem' }}>
                 <div>
                     <h1>Kapila Stores Admin</h1>
                     <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Overview & Management</p>
@@ -131,20 +133,20 @@ const Admin = () => {
             </header>
 
             {view === 'inventory' ? (
-                <div className="admin-layout">
+                <div style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
                     {/* Left Side: Form */}
-                    <div className="admin-form-section">
-                        <div className="card">
+                    <div style={{ width: '100%', maxWidth: '100%', minWidth: '0', flex: '1', display: 'block' }}>
+                        <div style={{ width: '100%', minWidth: '0 !important', maxWidth: '100%', boxSizing: 'border-box', background: 'var(--glass-bg)', backdropFilter: 'blur(12px)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-xl)', padding: '2rem', boxShadow: 'var(--shadow-lg)' }}>
                             <h3>{isEditing ? 'Edit Product' : 'Add New Product'}</h3>
-                            <form onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <label>Product Name</label>
-                                    <input name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. Cream Crackers" required />
+                            <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '100%', minWidth: '0', display: 'block' }}>
+                                <div style={{ width: '100%', marginBottom: '1.25rem' }}>
+                                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Product Name</label>
+                                    <input name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. Cream Crackers" required style={{ width: '100%', maxWidth: '100%', minWidth: '0 !important', boxSizing: 'border-box', background: 'rgba(0, 0, 0, 0.2)', border: '1px solid var(--glass-border)', padding: '0.75rem 1rem', borderRadius: '8px', color: 'white', fontSize: '0.95rem' }} />
                                 </div>
-                                <div className="form-row">
-                                    <div className="form-group">
-                                        <label>Category</label>
-                                        <select name="category" value={formData.category} onChange={handleInputChange}>
+                                <div style={{ display: 'block', width: '100%' }}>
+                                    <div style={{ width: '100%', marginBottom: '1.25rem' }}>
+                                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Category</label>
+                                        <select name="category" value={formData.category} onChange={handleInputChange} style={{ width: '100%', maxWidth: '100%', minWidth: '0', boxSizing: 'border-box', background: 'rgba(0, 0, 0, 0.2)', border: '1px solid var(--glass-border)', padding: '0.75rem 1rem', borderRadius: '8px', color: 'white', fontSize: '0.95rem' }}>
                                             <option value="snacks">Snacks</option>
                                             <option value="beverages">Beverages</option>
                                             <option value="groceries">Groceries</option>
@@ -152,19 +154,19 @@ const Admin = () => {
                                             <option value="household">Household</option>
                                         </select>
                                     </div>
-                                    <div className="form-group">
-                                        <label>Price (LKR)</label>
-                                        <input type="number" name="price" value={formData.price} onChange={handleInputChange} required />
+                                    <div style={{ width: '100%', marginBottom: '1.25rem' }}>
+                                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>Price (LKR)</label>
+                                        <input type="number" name="price" value={formData.price} onChange={handleInputChange} required style={{ width: '100%', maxWidth: '100%', minWidth: '0', boxSizing: 'border-box', background: 'rgba(0, 0, 0, 0.2)', border: '1px solid var(--glass-border)', padding: '0.75rem 1rem', borderRadius: '8px', color: 'white', fontSize: '0.95rem' }} />
                                     </div>
                                 </div>
-                                <div className="form-row">
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%' }}>
                                     <div className="form-group"><label>Stock</label><input type="number" name="stock" value={formData.stock} onChange={handleInputChange} required /></div>
                                     <div className="form-group"><label>Discount (%)</label><input type="number" name="discount" value={formData.discount} onChange={handleInputChange} /></div>
                                 </div>
                                 <div className="form-group">
                                     <label>Image URL</label>
                                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                        <input name="image" value={formData.image} onChange={handleInputChange} placeholder="https://..." style={{ flex: 1 }} />
+                                        <input name="image" value={formData.image} onChange={handleInputChange} placeholder="https://..." style={{ flex: 1, width: '100%', maxWidth: '100%', minWidth: '0', boxSizing: 'border-box' }} />
                                     </div>
                                     {/* Image Preview */}
                                     <div className="image-preview">
@@ -215,7 +217,7 @@ const Admin = () => {
                                             <tbody>
                                                 {items.map(p => (
                                                     <tr key={p.id}>
-                                                        <td style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                        <td className="product-cell" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                                             <img src={p.image} className="table-img" alt="" />
                                                             <div style={{ fontWeight: 500 }}>{p.name}</div>
                                                         </td>
@@ -250,7 +252,7 @@ const Admin = () => {
                     </div>
 
                     <div className="product-list-section">
-                        <table className="admin-table">
+                        <table className="admin-table orders-table">
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -264,38 +266,38 @@ const Admin = () => {
                             <tbody>
                                 {(orderTab === 'active' ? activeOrders : oldOrders).map(order => (
                                     <tr key={order.id}>
-                                        <td>{new Date(order.created_at).toLocaleDateString()}</td>
-                                        <td>
+                                        <td data-label="Date">{new Date(order.created_at).toLocaleDateString()}</td>
+                                        <td data-label="Customer">
                                             <div style={{ fontWeight: 600 }}>{order.user_name || 'Guest'}</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{order.user_phone}</div>
                                             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{order.user_email}</div>
                                         </td>
-                                        <td>
+                                        <td data-label="Status">
                                             <span className={`status-badge ${order.status.toLowerCase()}`}>{order.status}</span>
                                         </td>
-                                        <td>
+                                        <td data-label="Items">
                                             <ul style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', paddingLeft: '1rem', margin: 0 }}>
                                                 {order.items.map((item, i) => (
                                                     <li key={i}>{item.product_name} <span style={{ color: 'white' }}>x{item.quantity}</span></li>
                                                 ))}
                                             </ul>
                                         </td>
-                                        <td style={{ fontWeight: 'bold', color: '#6366f1' }}>
+                                        <td data-label="Total" style={{ fontWeight: 'bold', color: '#6366f1' }}>
                                             LKR {order.total}
                                         </td>
-                                        <td style={{ textAlign: 'right' }}>
-                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                        <td data-label="Actions" style={{ textAlign: 'right' }}>
+                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', flexDirection: window.innerWidth <= 768 ? 'column' : 'row', alignItems: window.innerWidth <= 768 ? 'center' : 'flex-end' }}>
                                                 {order.status === 'Pending' && (
-                                                    <button onClick={() => updateOrderStatus(order.id, 'Confirmed')} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'var(--primary-gradient)' }} title="Confirm Order">
+                                                    <button onClick={() => updateOrderStatus(order.id, 'Confirmed')} style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'var(--primary-gradient)', border: 'none', borderRadius: '6px', color: 'white', whiteSpace: 'nowrap', minWidth: '80px' }} title="Confirm Order">
                                                         Confirm
                                                     </button>
                                                 )}
                                                 {order.status === 'Confirmed' && (
-                                                    <button onClick={() => updateOrderStatus(order.id, 'Completed')} className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: 'var(--success-gradient)' }} title="Mark as Done">
+                                                    <button onClick={() => updateOrderStatus(order.id, 'Completed')} style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: '#10b981', border: 'none', borderRadius: '6px', color: 'white', whiteSpace: 'nowrap', minWidth: '80px' }} title="Mark as Done">
                                                         Done
                                                     </button>
                                                 )}
-                                                <button onClick={() => deleteOrder(order.id)} className="icon-btn delete" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.4rem', borderRadius: '4px' }} title="Delete Order">
+                                                <button onClick={() => deleteOrder(order.id)} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.4rem', borderRadius: '4px', border: 'none', whiteSpace: 'nowrap', minWidth: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Delete Order">
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>

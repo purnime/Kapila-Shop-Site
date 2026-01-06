@@ -62,7 +62,7 @@ const Login = () => {
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Enter username"
+                                placeholder="      Enter username"
                                 required
                             />
                         </div>
@@ -76,14 +76,14 @@ const Login = () => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter password"
+                                placeholder="      Enter password"
                                 autoComplete="current-password"
                                 required
                             />
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary btn-block">
+                    <button type="submit" className="login-submit-btn">
                         Sign In
                     </button>
 
