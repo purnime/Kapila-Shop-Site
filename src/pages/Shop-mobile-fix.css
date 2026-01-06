@@ -4,10 +4,35 @@
    FINAL MOBILE FIX - MAXIMUM SPECIFICITY
    ======================================== */
 
+/* Desktop - Grid Layout */
+@media only screen and (min-width: 901px) {
+    html body .shop-page .products-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+    
+    html body .shop-page .product-card {
+        flex-direction: column !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+    
+    html body .shop-page .product-image-wrapper {
+        width: 100% !important;
+        height: 200px !important;
+    }
+}
+
 /* Shop Page - Mobile Phones */
 @media only screen and (max-width: 900px) {
     body .shop-page .shop-layout {
         grid-template-columns: 1fr !important;
+    }
+    
+    body .shop-page .products-grid {
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     body .shop-page .product-card {
