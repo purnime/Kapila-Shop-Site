@@ -20,6 +20,11 @@
   /* Amber 500 */
   --color-danger: #ef4444;
 
+  /* Glass effect variables */
+  --glass-bg: rgba(30, 41, 59, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --primary-gradient: linear-gradient(135deg, var(--color-primary) 0%, #34d399 100%);
+
   /* Shadows & Radius */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
@@ -114,7 +119,7 @@ h6 {
 
 /* Components */
 .btn {
-  display: inline-flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   padding: 0.75rem 2rem;
@@ -156,7 +161,7 @@ h6 {
 /* Utilities */
 .grid-responsive {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
 }
 

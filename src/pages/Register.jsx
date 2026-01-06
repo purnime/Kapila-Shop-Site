@@ -74,7 +74,7 @@ const Register = () => {
                         <label>Full Name</label>
                         <div className="input-wrapper">
                             <Smile size={18} className="input-icon" />
-                            <input name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                            <input name="name" value={formData.name} onChange={handleChange} placeholder="      John Doe" required />
                         </div>
                     </div>
 
@@ -83,14 +83,14 @@ const Register = () => {
                             <label>Email</label>
                             <div className="input-wrapper">
                                 <Mail size={18} className="input-icon" />
-                                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="      john@example.com" required />
                             </div>
                         </div>
                         <div className="form-group">
                             <label>Phone</label>
                             <div className="input-wrapper">
                                 <Phone size={18} className="input-icon" />
-                                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="0771234567" required />
+                                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="      0771234567" required />
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@ const Register = () => {
                         <label>Username</label>
                         <div className="input-wrapper">
                             <User size={18} className="input-icon" />
-                            <input name="username" value={formData.username} onChange={handleChange} placeholder="Choose a username" required />
+                            <input name="username" value={formData.username} onChange={handleChange} placeholder="      Choose a username" required />
                         </div>
                     </div>
 
@@ -108,19 +108,19 @@ const Register = () => {
                             <label>Password</label>
                             <div className="input-wrapper">
                                 <Lock size={18} className="input-icon" />
-                                <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" autoComplete="new-password" required />
+                                <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="      Password" autoComplete="new-password" required />
                             </div>
                         </div>
                         <div className="form-group">
                             <label>Confirm</label>
                             <div className="input-wrapper">
                                 <Lock size={18} className="input-icon" />
-                                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm" autoComplete="new-password" required />
+                                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="      Confirm" autoComplete="new-password" required />
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary btn-block">
+                    <button type="submit" className="login-submit-btn">
                         Create Account
                     </button>
 
