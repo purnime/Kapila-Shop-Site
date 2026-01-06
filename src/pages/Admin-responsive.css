@@ -1,0 +1,111 @@
+/* ADMIN MOBILE RESPONSIVE - COMPLETE OVERRIDE */
+.admin-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+.admin-responsive * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.admin-responsive .form-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    display: block !important;
+}
+
+.admin-responsive input,
+.admin-responsive select,
+.admin-responsive textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+    .admin-responsive {
+        padding: 0.5rem !important;
+    }
+    
+    .admin-responsive .form-row {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    .admin-responsive .form-row > div {
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .admin-responsive .product-cell {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    .admin-responsive .product-cell img {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .admin-responsive .orders-table {
+        display: block !important;
+    }
+    
+    .admin-responsive .orders-table thead {
+        display: none !important;
+    }
+    
+    .admin-responsive .orders-table tbody {
+        display: block !important;
+    }
+    
+    .admin-responsive .orders-table tr {
+        display: block !important;
+        margin-bottom: 1rem !important;
+        padding: 1rem !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--glass-border) !important;
+    }
+    
+    .admin-responsive .orders-table td {
+        display: block !important;
+        text-align: left !important;
+        padding: 0.5rem 0 !important;
+        border: none !important;
+    }
+    
+    .admin-responsive .orders-table td:before {
+        content: attr(data-label) ': ' !important;
+        font-weight: bold !important;
+        color: var(--color-primary) !important;
+    }
+    
+    .admin-responsive .orders-table td[data-label="Actions"] {
+        text-align: center !important;
+    }
+    
+    .admin-responsive .orders-table td[data-label="Actions"] > div {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+    
+    .admin-responsive .orders-table td[data-label="Actions"] button {
+        width: auto !important;
+        min-width: 80px !important;
+        max-width: 120px !important;
+    }
+}
