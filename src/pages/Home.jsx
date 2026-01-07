@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, ShoppingBag, BookOpen, Coffee, Package, Home as HomeIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import heroImage from '../assets/home_hero_bg.png';
 import './Home.css';
 
 const Home = () => {
@@ -37,16 +38,18 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="hero-visual">
-                        {/* Abstract Decorative Elements */}
-                        <div className="blob blob-1"></div>
-                        <div className="blob blob-2"></div>
-                        <div className="hero-card glass-panel">
-                            <div className="hero-icon-wrapper">
-                                <ShoppingBag size={40} color="white" />
-                            </div>
-                            <div>
-                                <h3>Fresh Stock</h3>
-                                <p>Updated Daily</p>
+                        <div className="image-wrapper">
+                            <div className="circle-bg"></div>
+                            <img src={heroImage} alt="Kapila Stores Interior" className="hero-img floating" />
+
+                            <div className="float-card glass-panel">
+                                <div className="hero-icon-wrapper">
+                                    <ShoppingBag size={32} color="white" />
+                                </div>
+                                <div>
+                                    <h3 style={{ fontSize: '1rem', marginBottom: 0 }}>Fresh Stock</h3>
+                                    <p style={{ fontSize: '0.8rem', margin: 0 }}>Updated Daily</p>
+                                </div>
                             </div>
                         </div>
                     </div>
