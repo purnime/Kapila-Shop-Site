@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Trash2, ArrowRight } from 'lucide-react';
+import ConfirmationModal from '../components/ConfirmationModal';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 import './Cart.css';
@@ -9,6 +10,7 @@ const Cart = () => {
     const { user } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [modal, setModal] = useState({ isOpen: false, type: 'info', title: '', message: '', onConfirm: null, confirmText: 'Confirm' });
 
     useEffect(() => {
         if (user) {
@@ -35,8 +37,18 @@ const Cart = () => {
         fetchCart();
     };
 
-    const handleCheckout = async () => {
-        if (!confirm('Confirm checkout?')) return;
+    const handleCheckout = () => {
+        setModal({
+            isOpen: true,
+            title: 'Confirm Checkout',
+            message: `Your total is LKR ${total}. Do you want to place this order?`,
+            type: 'default',
+            confirmText: 'Place Order',
+            onConfirm: performCheckout
+        });
+    };
+
+    const performCheckout = async () => {
         try {
             const res = await fetch(`${API_BASE_URL}/api/checkout`, {
                 method: 'POST',
@@ -45,11 +57,28 @@ const Cart = () => {
             });
             const data = await res.json();
             if (data.success) {
-                alert('Order placed successfully!');
+                // Success - just clear cart and close modal as requested
                 fetchCart();
+                setModal(prev => ({ ...prev, isOpen: false }));
+            } else {
+                setModal({
+                    isOpen: true,
+                    title: 'Checkout Failed',
+                    message: data.message || 'Something went wrong.',
+                    type: 'danger',
+                    confirmText: 'Close',
+                    onConfirm: () => setModal(prev => ({ ...prev, isOpen: false }))
+                });
             }
         } catch (err) {
-            alert('Checkout failed');
+            setModal({
+                isOpen: true,
+                title: 'Error',
+                message: 'Connection failed. Please try again.',
+                type: 'danger',
+                confirmText: 'Close',
+                onConfirm: () => setModal(prev => ({ ...prev, isOpen: false }))
+            });
         }
     };
 
@@ -112,6 +141,16 @@ const Cart = () => {
                     </div>
                 </div>
             )}
+
+            <ConfirmationModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                type={modal.type}
+                confirmText={modal.confirmText}
+            />
         </div>
     );
 };

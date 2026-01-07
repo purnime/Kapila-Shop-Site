@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
 import { Bell, Check, Clock, Trash2 } from 'lucide-react';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const Notifications = () => {
     const { user } = useAuth();
     const [notifications, setNotifications] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [modal, setModal] = useState({ isOpen: false, id: null });
 
     useEffect(() => {
         if (user) {
@@ -35,20 +37,25 @@ const Notifications = () => {
         }
     };
 
-    const deleteNotification = async (id, e) => {
-        e.stopPropagation(); // Prevent triggering other click events if any
-        if (!window.confirm('Are you sure you want to delete this notification?')) return;
+    const deleteNotification = (id, e) => {
+        e.stopPropagation();
+        setModal({ isOpen: true, id });
+    };
 
+    const confirmDelete = async () => {
+        if (!modal.id) return;
         try {
-            const res = await fetch(`${API_BASE_URL}/api/notifications/${id}`, {
+            const res = await fetch(`${API_BASE_URL}/api/notifications/${modal.id}`, {
                 method: 'DELETE'
             });
             const data = await res.json();
             if (data.success) {
-                setNotifications(prev => prev.filter(n => n.id !== id));
+                setNotifications(prev => prev.filter(n => n.id !== modal.id));
             }
         } catch (err) {
             console.error('Error deleting notification:', err);
+        } finally {
+            setModal({ isOpen: false, id: null });
         }
     };
 
@@ -110,6 +117,16 @@ const Notifications = () => {
                     ))}
                 </div>
             )}
+
+            <ConfirmationModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={confirmDelete}
+                title="Delete Notification"
+                message="Are you sure you want to delete this notification? This action cannot be undone."
+                type="danger"
+                confirmText="Delete"
+            />
         </div>
     );
 };

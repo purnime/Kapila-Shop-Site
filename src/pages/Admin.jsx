@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit2, DollarSign, Package, ShoppingBag, CheckCircle, Archive, Mail, Upload, LayoutDashboard, LogOut } from 'lucide-react';
+import ConfirmationModal from '../components/ConfirmationModal';
 import { API_BASE_URL } from '../config';
 import './Admin.css';
 import './Admin-mobile-fix.css';
@@ -16,6 +17,7 @@ const Admin = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [view, setView] = useState('inventory'); // 'inventory' or 'orders'
     const [orderTab, setOrderTab] = useState('active'); // 'active' or 'old'
+    const [modal, setModal] = useState({ isOpen: false, type: 'info', title: '', message: '', onConfirm: null, confirmText: 'Confirm' });
 
     useEffect(() => {
         if (!user || user.username !== 'admin123') {
@@ -64,14 +66,39 @@ const Admin = () => {
         } catch (err) { console.error(err); }
     };
 
-    const handleDelete = async (id) => {
-        if (confirm('Delete product?')) {
-            await fetch(`${API_BASE_URL}/api/products/${id}`, { method: 'DELETE' });
-            fetchProducts();
+    const handleDelete = (id) => {
+        setModal({
+            isOpen: true,
+            title: 'Delete Product',
+            message: 'Are you sure you want to delete this product? This action cannot be undone.',
+            type: 'danger',
+            confirmText: 'Delete',
+            onConfirm: async () => {
+                await fetch(`${API_BASE_URL}/api/products/${id}`, { method: 'DELETE' });
+                fetchProducts();
+                setModal(prev => ({ ...prev, isOpen: false }));
+            }
+        });
+    };
+
+    const updateOrderStatus = (orderId, newStatus) => {
+        if (newStatus === 'Confirmed') {
+            setModal({
+                isOpen: true,
+                title: 'Confirm Order',
+                message: 'Are you sure you want to confirm this order? The customer will be notified.',
+                type: 'success',
+                confirmText: 'Confirm Order',
+                onConfirm: async () => {
+                    await performUpdate(orderId, newStatus);
+                }
+            });
+        } else {
+            performUpdate(orderId, newStatus);
         }
     };
 
-    const updateOrderStatus = async (orderId, newStatus) => {
+    const performUpdate = async (orderId, newStatus) => {
         try {
             await fetch(`${API_BASE_URL}/api/orders/${orderId}/status`, {
                 method: 'PUT',
@@ -80,29 +107,57 @@ const Admin = () => {
             });
             fetchOrders();
             if (newStatus === 'Confirmed') {
-                alert("Order confirmed and email notification sent to customer!");
+                // Modal will close automatically via state update if needed, but here we just need to close it
             }
+            setModal(prev => ({ ...prev, isOpen: false }));
         } catch (err) { console.error(err); }
     };
 
-    const deleteOrder = async (id) => {
-        console.log('Attempting to delete order ID:', id);
-        if (confirm('Delete order and all its history?')) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/orders/${id}`, { method: 'DELETE' });
-                const data = await response.json();
-                console.log('Delete response:', data);
-                if (data.success) {
-                    alert('Order deleted successfully');
-                    fetchOrders();
-                } else {
-                    alert('Failed to delete order: ' + (data.error || 'Unknown error'));
+    const deleteOrder = (id) => {
+        setModal({
+            isOpen: true,
+            title: 'Delete Order',
+            message: 'Are you sure you want to permanently delete this order and its history?',
+            type: 'danger',
+            confirmText: 'Delete Order',
+            onConfirm: async () => {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/orders/${id}`, { method: 'DELETE' });
+                    const data = await response.json();
+                    if (data.success) {
+                        setModal({
+                            isOpen: true,
+                            title: 'Success',
+                            message: 'Order deleted successfully',
+                            type: 'success',
+                            confirmText: 'OK',
+                            onConfirm: () => {
+                                fetchOrders();
+                                setModal(prev => ({ ...prev, isOpen: false }));
+                            }
+                        });
+                    } else {
+                        setModal({
+                            isOpen: true,
+                            title: 'Error',
+                            message: 'Failed to delete order: ' + (data.error || 'Unknown error'),
+                            type: 'danger',
+                            confirmText: 'OK',
+                            onConfirm: () => setModal(prev => ({ ...prev, isOpen: false }))
+                        });
+                    }
+                } catch (err) {
+                    setModal({
+                        isOpen: true,
+                        title: 'Error',
+                        message: 'Connection error occurred while deleting order',
+                        type: 'danger',
+                        confirmText: 'OK',
+                        onConfirm: () => setModal(prev => ({ ...prev, isOpen: false }))
+                    });
                 }
-            } catch (err) {
-                console.error('Delete error:', err);
-                alert('Connection error occurred while deleting order');
             }
-        }
+        });
     };
 
     const totalValue = products.reduce((sum, p) => sum + (Number(p.price) * (Number(p.stock) || 0)), 0);
@@ -312,6 +367,16 @@ const Admin = () => {
                     </div>
                 </div>
             )}
+
+            <ConfirmationModal
+                isOpen={modal.isOpen}
+                onClose={() => setModal({ ...modal, isOpen: false })}
+                onConfirm={modal.onConfirm}
+                title={modal.title}
+                message={modal.message}
+                type={modal.type}
+                confirmText={modal.confirmText}
+            />
         </div>
     );
 };
