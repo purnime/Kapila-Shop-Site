@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Search } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
 import './Shop.css';
@@ -14,6 +14,7 @@ const Shop = () => {
     const navigate = useNavigate();
 
     const [cartQuantities, setCartQuantities] = useState({});
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,9 +86,11 @@ const Shop = () => {
         { id: 'household', name: 'Household' },
     ];
 
-    const filteredProducts = currentCategory === 'all'
-        ? products
-        : products.filter(p => p.category === currentCategory);
+    const filteredProducts = products.filter(p => {
+        const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+        const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
 
     return (
         <div className="shop-page page-wrapper">
@@ -95,6 +98,15 @@ const Shop = () => {
                 <div className="container">
                     <h1>Our Collection</h1>
                     <p style={{ color: 'var(--color-text-muted)' }}>Quality products for your daily needs.</p>
+                    <div className="search-bar">
+                        <Search size={20} />
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
             </div>
 
