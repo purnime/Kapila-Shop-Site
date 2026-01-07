@@ -220,7 +220,7 @@ app.put('/api/orders/:id/status', async (req, res) => {
     if (order) {
         await db.run(
             'INSERT INTO notifications (user_id, message) VALUES (?, ?)',
-            [order.user_id, `Your order #${id} status has been updated to: ${status}`]
+            [order.user_id, `Your order status has been updated to: ${status}`]
         );
     }
 
@@ -248,6 +248,18 @@ app.put('/api/notifications/read/:userId', async (req, res) => {
     const db = await openDb();
     try {
         await db.run('UPDATE notifications SET is_read = 1 WHERE user_id = ?', [userId]);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Delete a notification
+app.delete('/api/notifications/:id', async (req, res) => {
+    const { id } = req.params;
+    const db = await openDb();
+    try {
+        await db.run('DELETE FROM notifications WHERE id = ?', [id]);
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });

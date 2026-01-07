@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
-import { Bell, Check, Clock } from 'lucide-react';
+import { Bell, Check, Clock, Trash2 } from 'lucide-react';
 
 const Notifications = () => {
     const { user } = useAuth();
@@ -32,6 +32,23 @@ const Notifications = () => {
             await fetch(`${API_BASE_URL}/api/notifications/read/${user.id}`, { method: 'PUT' });
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const deleteNotification = async (id, e) => {
+        e.stopPropagation(); // Prevent triggering other click events if any
+        if (!window.confirm('Are you sure you want to delete this notification?')) return;
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/notifications/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (data.success) {
+                setNotifications(prev => prev.filter(n => n.id !== id));
+            }
+        } catch (err) {
+            console.error('Error deleting notification:', err);
         }
     };
 
@@ -66,9 +83,29 @@ const Notifications = () => {
                             <div style={{ flex: 1 }}>
                                 <p style={{ margin: 0, fontWeight: n.is_read ? 400 : 600 }}>{n.message}</p>
                                 <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                    <Clock size={12} /> {new Date(n.created_at).toLocaleString()}
+                                    <Clock size={12} /> {new Date(n.created_at.endsWith('Z') ? n.created_at : n.created_at + 'Z').toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}
                                 </span>
                             </div>
+                            <button
+                                onClick={(e) => deleteNotification(n.id, e)}
+                                className="btn-icon"
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    color: 'var(--color-text-muted)',
+                                    padding: '0.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'color 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => e.target.style.color = '#ef4444'}
+                                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
+                                title="Delete notification"
+                            >
+                                <Trash2 size={18} />
+                            </button>
                         </div>
                     ))}
                 </div>
